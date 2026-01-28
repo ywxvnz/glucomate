@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/test_screen.dart';
+import 'screens/dashboard_screen.dart';
 
 class GlucoMateApp extends StatelessWidget {
   const GlucoMateApp({super.key});
