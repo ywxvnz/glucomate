@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/glucose_card.dart';
 import 'manual_logging_screen.dart';
+import 'scan_glucometer_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -25,16 +26,38 @@ class DashboardScreen extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ManualLoggingScreen(),
-                  ),
-                );
-              },
-              child: const Text('Go to Manual Logging'),
+            // Manual Logging Button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ManualLoggingScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Go to Manual Logging'),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Scan Glucometer Button
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const ScanGlucometerScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Scan Glucometer'),
+              ),
             ),
           ],
         ),
@@ -44,7 +67,7 @@ class DashboardScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => ManualLoggingScreen(),
+              builder: (_) => ScanGlucometerScreen(),
             ),
           );
         },
