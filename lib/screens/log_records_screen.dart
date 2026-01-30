@@ -12,41 +12,46 @@ class LogRecordsScreen extends StatefulWidget {
 
 class _LogRecordsScreenState extends State<LogRecordsScreen> {
   String _selectedRange = 'Today';
+  // mutable records stored in state for editing/deleting in frontend
+  late List<Map<String, String>> _records;
 
-  // Sample data for preview/demo
-  List<Map<String, String>> get _sampleRecords => [
-        {
-          'date': '01/07/25',
-          'time': '9:26pm',
-          'glucose': '120 mg/dl',
-          'status': 'Normal',
-          'note': 'felt dizzyyyyyyyyyyyyyyyyyyyy',
-          'readingType': 'random',
-          'source': 'Scan'
-        },
-        {
-          'date': '01/07/25',
-          'time': '8:10am',
-          'glucose': '95 mg/dl',
-          'status': 'Normal',
-          'note': 'all good',
-          'readingType': 'Before Meal',
-          'source': 'Manual'
-        },
-        {
-          'date': '01/06/25',
-          'time': '7:50pm',
-          'glucose': '200 mg/dl',
-          'status': 'High',
-          'note': 'after dinner',
-          'readingType': 'After Meal',
-          'source': 'Scan'
-        },
-      ];
+  @override
+  void initState() {
+    super.initState();
+    _records = [
+      {
+        'date': '01/07/25',
+        'time': '9:26pm',
+        'glucose': '120 mg/dl',
+        'status': 'Normal',
+        'note': 'felt dizzyyyyyyyyyyyyyyyyyyyy',
+        'readingType': 'Random',
+        'source': 'Scan'
+      },
+      {
+        'date': '01/07/25',
+        'time': '8:10am',
+        'glucose': '95 mg/dl',
+        'status': 'Normal',
+        'note': 'all good',
+        'readingType': 'Before Meal',
+        'source': 'Manual'
+      },
+      {
+        'date': '01/06/25',
+        'time': '7:50pm',
+        'glucose': '200 mg/dl',
+        'status': 'High',
+        'note': 'after dinner',
+        'readingType': 'After Meal',
+        'source': 'Scan'
+      },
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
-    final records = _sampleRecords;
+    final records = _records;
     
     return Scaffold(
       appBar: AppBar(
@@ -199,7 +204,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                                           color: AppColors.buttonCyan,
                                           shape: const CircleBorder(),
                                           child: IconButton(
-                                            onPressed: () {},
+                                            onPressed: () => _editRecord(index),
                                             icon: Icon(
                                               Icons.edit,
                                               color: AppColors.iconBlack,
@@ -212,7 +217,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                                           color: AppColors.bloodRed,
                                           shape: const CircleBorder(),
                                           child: IconButton(
-                                            onPressed: () {},
+                                            onPressed: () => _confirmDelete(index),
                                             icon: Icon(
                                               Icons.delete,
                                               color: AppColors.iconBlack,
@@ -255,6 +260,92 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
         ),
       ],
     );
+  }
+
+  Future<void> _editRecord(int index) async {
+    final record = _records[index];
+    final noteController = TextEditingController(text: record['note'] ?? '');
+    String readingType = record['readingType'] ?? 'Random';
+
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Entry'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: noteController,
+              maxLines: 3,
+              decoration: const InputDecoration(labelText: 'Note'),
+            ),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<String>(
+              value: readingType,
+              items: const [
+                DropdownMenuItem(value: 'Random', child: Text('Random')),
+                DropdownMenuItem(value: 'Before Meal', child: Text('Before Meal')),
+                DropdownMenuItem(value: 'After Meal', child: Text('After Meal')),
+              ],
+              onChanged: (v) => readingType = v ?? readingType,
+              decoration: const InputDecoration(labelText: 'Reading Type'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              readOnly: true,
+              decoration: InputDecoration(labelText: 'Entry Source', hintText: record['source'] ?? ''),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          ElevatedButton(
+            onPressed: () {
+              // save to local state
+              setState(() {
+                _records[index] = {
+                  ..._records[index],
+                  'note': noteController.text,
+                  'readingType': readingType,
+                };
+              });
+              Navigator.pop(context, true);
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+
+    // dispose controller
+    noteController.dispose();
+    return;
+  }
+
+  Future<void> _confirmDelete(int index) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Entry'),
+        content: const Text('Are you sure you want to delete this entry?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.bloodRed),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      setState(() {
+        _records.removeAt(index);
+      });
+    }
   }
 }
  
