@@ -5,6 +5,7 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
   static const Color gray = Color(0xFF585555);
+  static const Color lightGray = Color(0xD9D9D9D9); 
   static const Color background = Color(0xFFFFFFFF);
 
   // DESIGN TOKENS
@@ -14,7 +15,7 @@ class AppColors {
   static const Color buttonCyan = Color(0xFF2C908F);
   static const Color iconBlack = black;
   static const Color containerBackground = white;
-  static const Color borderGray = gray;
+  static const Color borderGray = lightGray;
 
   //PALETTE COLORS
   static const Color redViolet = Color(0xFF8E1B52);
