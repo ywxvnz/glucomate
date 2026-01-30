@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../repositories/glucose_repository.dart';
 import '../models/glucose_entry.dart';
 import '../utils/app_colors.dart';
+import '../utils/app_text_styles.dart';
 
 class ManualLoggingScreen extends StatefulWidget {
   const ManualLoggingScreen({super.key});
@@ -124,16 +125,10 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
                 DropdownButtonFormField<String>(
                   initialValue: readingType,
                   decoration: const InputDecoration(labelText: 'Reading Type'),
-                  items: const [
-                    DropdownMenuItem(value: 'Random', child: Text('Random')),
-                    DropdownMenuItem(
-                      value: 'Before Meal',
-                      child: Text('Before Meal'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'After Meal',
-                      child: Text('After Meal'),
-                    ),
+                  items: [
+                    DropdownMenuItem(value: 'Random', child: Text('Random', style: AppTextStyles.body())),
+                    DropdownMenuItem(value: 'Before Meal', child: Text('Before Meal', style: AppTextStyles.body())),
+                    DropdownMenuItem(value: 'After Meal', child: Text('After Meal', style: AppTextStyles.body())),
                   ],
                   onChanged: (value) {
                     setState(() => readingType = value!);
@@ -150,7 +145,7 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
                       backgroundColor: AppColors.buttonCyan,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text('Save'),
+                    child: Text('Save', style: AppTextStyles.button()),
                   ),
                 ),
               ],

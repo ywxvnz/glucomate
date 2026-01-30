@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
+import '../utils/app_text_styles.dart';
 import '../widgets/time_filter_dropdown.dart';
 
 class LogRecordsScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
           'time': '9:26pm',
           'glucose': '120 mg/dl',
           'status': 'Normal',
-          'note': 'felt dizzyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
+          'note': 'felt dizzyyyyyyyyyyyyyyyyyyyy',
           'readingType': 'random',
           'source': 'Scan'
         },
@@ -70,10 +71,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 36, vertical: 14),
                   ),
-                  child: const Text(
-                    'Export Logs',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
+                  child: Text('Export Logs', style: AppTextStyles.button()),
                 ),
               ),
 
@@ -95,14 +93,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Log Records',
-                            style: TextStyle(
-                              color: AppColors.textBlack,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                          Text('Log Records', style: AppTextStyles.headline(color: AppColors.textBlack)),
                           // Time filter dropdown (reusable)
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
@@ -135,30 +126,10 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                           horizontal: 12, vertical: 10),
                       child: Row(
                         children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text('Date',
-                                  style: TextStyle(
-                                      color: AppColors.textBlack.withOpacity(0.9),
-                                      fontWeight: FontWeight.w600))),
-                          Expanded(
-                              flex: 2,
-                              child: Text('Time',
-                                  style: TextStyle(
-                                      color: AppColors.textBlack.withOpacity(0.9),
-                                      fontWeight: FontWeight.w600))),
-                          Expanded(
-                              flex: 3,
-                              child: Text('Blood Sugar',
-                                  style: TextStyle(
-                                      color: AppColors.textBlack.withOpacity(0.9),
-                                      fontWeight: FontWeight.w600))),
-                          Expanded(
-                              flex: 2,
-                              child: Text('Status',
-                                  style: TextStyle(
-                                      color: AppColors.textBlack.withOpacity(0.9),
-                                      fontWeight: FontWeight.w600))),
+                            Expanded(flex: 2, child: Text('Date', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                            Expanded(flex: 2, child: Text('Time', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                            Expanded(flex: 3, child: Text('Blood Sugar', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                            Expanded(flex: 2, child: Text('Status', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
                           const SizedBox(width: 8),
                         ],
                       ),
@@ -182,12 +153,12 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                             childrenPadding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 12),
                             collapsedBackgroundColor: Colors.transparent,
-                            title: Row(
+                                title: Row(
                               children: [
-                                Expanded(flex: 2, child: Text(r['date'] ?? '', style: TextStyle(color: AppColors.textGray))),
-                                Expanded(flex: 2, child: Text(r['time'] ?? '', style: TextStyle(color: AppColors.textGray))),
-                                Expanded(flex: 3, child: Text(r['glucose'] ?? '', style: TextStyle(color: AppColors.textGray))),
-                                Expanded(flex: 2, child: Text(r['status'] ?? '', style: TextStyle(color: AppColors.textGray))),
+                                Expanded(flex: 2, child: Text(r['date'] ?? '', style: AppTextStyles.body(color: AppColors.textGray))),
+                                Expanded(flex: 2, child: Text(r['time'] ?? '', style: AppTextStyles.body(color: AppColors.textGray))),
+                                Expanded(flex: 3, child: Text(r['glucose'] ?? '', style: AppTextStyles.body(color: AppColors.textGray))),
+                                Expanded(flex: 2, child: Text(r['status'] ?? '', style: AppTextStyles.body(color: AppColors.textGray))),
                               ],
                             ),
                             children: [
@@ -217,7 +188,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                                         _detailPair('Entry Source:', r['source'] ?? ''),
                                       ],
                                     ),
-
+                                    
                                     const SizedBox(height: 12),
 
                                     Row(
@@ -268,27 +239,19 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
     );
   }
 
-  Widget _detailPair(String label, String value) {
+  Widget _detailPair(String label, String value, {TextStyle? labelStyle, TextStyle? valueStyle}) {
+    final lblStyle = labelStyle ?? AppTextStyles.subtitle(color: AppColors.textBlack);
+    final valStyle = valueStyle ?? AppTextStyles.body(color: AppColors.textBlack);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: AppColors.textBlack,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        Text(label, style: lblStyle),
         const SizedBox(width: 6),
         SizedBox(
           width: 180,
-          child: Text(
-            value,
-            style: TextStyle(
-              color: AppColors.textBlack,
-            ),
-          ),
+          child: Text(value, style: valStyle),
         ),
       ],
     );

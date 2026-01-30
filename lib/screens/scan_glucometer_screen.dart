@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
+import '../utils/app_text_styles.dart';
 import 'manual_logging_screen.dart';
 
 class ScanGlucometerScreen extends StatelessWidget {
@@ -49,7 +50,7 @@ class ScanGlucometerScreen extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.document_scanner),
-                label: const Text('Scan Glucometer'),
+                label: Text('Scan Glucometer', style: AppTextStyles.button()),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: AppColors.buttonCyan,
@@ -72,7 +73,7 @@ class ScanGlucometerScreen extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.edit),
-                label: const Text('Manual Input'),
+                label: Text('Manual Input', style: AppTextStyles.button(color: AppColors.textBlack)),
               ),
             ),
           ],

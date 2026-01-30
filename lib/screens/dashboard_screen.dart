@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'manual_logging_screen.dart';
 import 'scan_glucometer_screen.dart';
 import 'log_records_screen.dart';
+import '../utils/app_text_styles.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -59,14 +60,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Hello,", style: GoogleFonts.nunito(fontSize: 15)),
-                    Text(
-                      "Juan Lucas",
-                      style: GoogleFonts.nunito(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                    Text("Hello,", style: AppTextStyles.body()),
+                    Text("Juan Lucas", style: AppTextStyles.title()),
                   ],
                 ),
               ],
@@ -118,14 +113,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   vertical: 14,
                 ),
               ),
-              child: Text(
-                "Manual Logging",
-                style: GoogleFonts.nunito(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
+              child: Text("Manual Logging", style: AppTextStyles.button()),
             ),
           ),
           
@@ -148,14 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   vertical: 14,
                 ),
               ),
-              child: Text(
-                "Log Records",
-                style: GoogleFonts.nunito(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
+              child: Text("Log Records", style: AppTextStyles.button()),
             ),
           ),
 
@@ -169,10 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: GoogleFonts.fredoka(fontSize: 20, fontWeight: FontWeight.w700),
-        ),
+        Text(title, style: AppTextStyles.headline()),
         GestureDetector(
           onTap: () async {
             final picked = await showDatePicker(
@@ -234,22 +212,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: GoogleFonts.nunito(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black54,
-                ),
-              ),
+              Text(title, style: AppTextStyles.subtitle(color: Colors.black54)),
               const SizedBox(height: 6),
-              Text(
-                value,
-                style: GoogleFonts.nunito(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+              Text(value, style: AppTextStyles.title()),
             ],
           ),
           FaIcon(icon, color: Colors.black, size: 20),
