@@ -43,7 +43,7 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: AppColors.containerBackground,
             border: Border.all(color: AppColors.borderGray),
             borderRadius: BorderRadius.circular(8),
           ),
@@ -147,7 +147,7 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
                   child: ElevatedButton(
                     onPressed: _saveEntry,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.buttonGray,
+                      backgroundColor: AppColors.buttonCyan,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: const Text('Save'),

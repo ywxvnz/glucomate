@@ -27,11 +27,11 @@ class ScanGlucometerScreen extends StatelessWidget {
                 border: Border.all(color: AppColors.borderGray),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   Icons.camera_alt,
                   size: 64,
-                  color: Colors.grey,
+                  color: AppColors.iconBlack,
                 ),
               ),
             ),
@@ -52,7 +52,7 @@ class ScanGlucometerScreen extends StatelessWidget {
                 label: const Text('Scan Glucometer'),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: AppColors.buttonGray,
+                  backgroundColor: AppColors.buttonCyan,
                 ),
               ),
             ),
