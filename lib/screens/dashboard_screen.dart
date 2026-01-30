@@ -14,6 +14,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
   DateTime _selectedDate = DateTime.now();
+  bool _isDarkMode = false;
 
   String get dateLabel {
     final now = DateTime.now();
@@ -32,13 +33,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
     const Center(child: Text('Settings Page')),
   ];
 
-  //dashboard
+  // Dashboard Home
   Widget _dashboardHome() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Scrollable profile + greeting
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.lightBlueAccent,
+                  child: const Icon(
+                    Icons.person,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Hello,", style: GoogleFonts.nunito(fontSize: 15)),
+                    Text(
+                      "Juan Lucas",
+                      style: GoogleFonts.nunito(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
           _sectionHeader("Indexes"),
           const SizedBox(height: 16),
           Row(
@@ -99,17 +132,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // header
+  // Section Header
   Widget _sectionHeader(String title) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: GoogleFonts.yesevaOne(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-          ),
+          style: GoogleFonts.fredoka(fontSize: 20, fontWeight: FontWeight.w700),
         ),
         GestureDetector(
           onTap: () async {
@@ -147,7 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // index box
+  // Index Box
   Widget _indexBox(String title, String value, IconData icon) {
     return Container(
       width: 160,
@@ -196,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // line graph draft
+  // Line Chart
   Widget _lineChart() {
     final days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     final yLabels = [250, 200, 150, 100, 50, 0];
@@ -205,7 +235,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SizedBox(
       height: 240,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -221,32 +251,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 )
                 .toList(),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final chartHeight = constraints.maxHeight - 28;
+                final chartHeight = constraints.maxHeight - 24;
                 final chartWidth = constraints.maxWidth;
-                final stepX = chartWidth / (values.length - 1);
                 return Column(
                   children: [
                     SizedBox(
                       height: chartHeight,
+                      width: chartWidth,
                       child: CustomPaint(painter: _LineChartPainter(values)),
                     ),
+                    const SizedBox(height: 4),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: days
                           .map(
-                            (d) => SizedBox(
-                              width: stepX,
-                              child: Center(
-                                child: Text(
-                                  d,
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                            (d) => Text(
+                              d,
+                              style: GoogleFonts.nunito(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           )
@@ -267,232 +294,257 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() => _selectedIndex = index);
   }
 
-  // main
+  // NavBar helper
+  Widget _navBarIcon(IconData icon, int index) {
+    final isSelected = _selectedIndex == index;
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: () => _onItemTapped(index),
+      splashColor: Colors.lightBlueAccent.withOpacity(0.3),
+      highlightColor: Colors.transparent,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? Colors.lightBlueAccent.withOpacity(0.15)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: FaIcon(
+          icon,
+          size: 20,
+          color: isSelected ? Colors.lightBlueAccent : Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  // Drawer item with hover & active
+  Widget _drawerItem(
+    IconData icon,
+    String title,
+    int index,
+    VoidCallback onTap,
+  ) {
+    final isSelected = _selectedIndex == index;
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: ListTile(
+        leading: FaIcon(
+          icon,
+          color: isSelected ? Colors.lightBlueAccent : Colors.grey,
+        ),
+        title: Text(
+          title,
+          style: GoogleFonts.nunito(
+            color: isSelected ? Colors.lightBlueAccent : null,
+          ),
+        ),
+        hoverColor: Colors.lightBlueAccent.withOpacity(0.1),
+        onTap: onTap,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEDF1F6),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          color: const Color(0xFFEDF1F6),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundColor: Colors.lightBlueAccent,
-                    child: const Icon(
-                      Icons.person,
-                      size: 28,
-                      color: Colors.white,
+    return MaterialApp(
+      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      home: Scaffold(
+        backgroundColor: _isDarkMode
+            ? Colors.grey[900]
+            : const Color(0xFFEDF1F6),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(80),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            color: _isDarkMode ? Colors.grey[900] : const Color(0xFFEDF1F6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Logo and App Name
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/logo.png', // full logo picture
+                      width: 48,
+                      height: 48,
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Hello,", style: GoogleFonts.nunito(fontSize: 14)),
-                      Text(
-                        "Juan Lucas",
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    const SizedBox(width: 8),
+                    Text(
+                      "GlucoMate",
+                      style: GoogleFonts.fredoka(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: _isDarkMode ? Colors.white : Colors.black,
                       ),
-                    ],
-                  ),
-                ],
-              ),
-              Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    ),
+                  ],
                 ),
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: const Icon(Icons.menu),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        endDrawer: Drawer(
+          child: Column(
+            children: [
+              Container(
+                height: 160,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.blueAccent.shade700,
+                      Colors.lightBlueAccent,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(40),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 34,
+                      backgroundColor: Colors.white.withOpacity(0.9),
+                      child: Image.asset(
+                        'assets/logo.png',
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "GlucoMate",
+                          style: GoogleFonts.fredoka(
+                            fontSize: 20,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    const SizedBox(height: 12),
+                    _drawerItem(Icons.dashboard, "Dashboard", 0, () {
+                      setState(() => _selectedIndex = 0);
+                      Navigator.pop(context);
+                    }),
+                    _drawerItem(
+                      Icons.person,
+                      "Profile",
+                      1,
+                      () => Navigator.pop(context),
+                    ),
+                    _drawerItem(
+                      Icons.history,
+                      "History",
+                      2,
+                      () => Navigator.pop(context),
+                    ),
+                    _drawerItem(Icons.settings, "Settings", 4, () {
+                      setState(() => _selectedIndex = 4);
+                      Navigator.pop(context);
+                    }),
+                    ListTile(
+                      leading: Icon(
+                        _isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                        color: Colors.grey,
+                      ),
+                      title: Text(
+                        _isDarkMode ? "Dark Mode" : "Light Mode",
+                        style: GoogleFonts.nunito(),
+                      ),
+                      onTap: () => setState(() => _isDarkMode = !_isDarkMode),
+                    ),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.grey),
+                title: Text("Logout", style: GoogleFonts.nunito()),
+                onTap: () {},
               ),
             ],
           ),
         ),
-      ),
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              height: 160,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    const Color.fromARGB(255, 24, 116, 159),
-                    Colors.lightBlueAccent,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(12),
-                ),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 34,
-                    backgroundColor: Colors.white.withOpacity(0.9),
-                    child: const Icon(
-                      Icons.person,
-                      size: 34,
-                      color: Colors.blue,
+        body: _pages[_selectedIndex],
+        floatingActionButton: Transform.translate(
+          offset: const Offset(0, 8),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ScanGlucometerScreen()),
+                );
+              },
+              child: Container(
+                width: 64,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: Colors.lightBlueAccent,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.lightBlue.withOpacity(0.18),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Juan Lucas",
-                        style: GoogleFonts.nunito(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "juan@example.com",
-                        style: GoogleFonts.nunito(
-                          fontSize: 13,
-                          color: Colors.white70,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-            ListTile(
-              leading: const Icon(Icons.person, color: Colors.lightBlueAccent),
-              title: Text("Profile", style: GoogleFonts.nunito()),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.history, color: Colors.lightBlueAccent),
-              title: Text("History", style: GoogleFonts.nunito()),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-                color: Colors.lightBlueAccent,
-              ),
-              title: Text("Settings", style: GoogleFonts.nunito()),
-              onTap: () {
-                Navigator.pop(context);
-                setState(() => _selectedIndex = 4);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.lightBlueAccent),
-              title: Text("Logout", style: GoogleFonts.nunito()),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-      body: _pages[_selectedIndex],
-      floatingActionButton: Transform.translate(
-        offset: const Offset(0, 8),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(16),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => ScanGlucometerScreen()),
-              );
-            },
-            child: Container(
-              width: 64,
-              height: 56,
-              decoration: BoxDecoration(
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.lightBlue.withOpacity(0.18),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: Icon(Icons.qr_code_scanner, color: Colors.white),
+                  ],
+                ),
+                child: const Center(
+                  child: Icon(Icons.qr_code_scanner, color: Colors.white),
+                ),
               ),
             ),
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-        child: Container(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: Container(
           height: 64,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.blue.withOpacity(0.12),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, -3),
               ),
             ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.house, size: 20),
-                color: _selectedIndex == 0
-                    ? Colors.lightBlueAccent
-                    : Colors.grey,
-                onPressed: () => _onItemTapped(0),
-              ),
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.chartLine, size: 20),
-                color: _selectedIndex == 1
-                    ? Colors.lightBlueAccent
-                    : Colors.grey,
-                onPressed: () => _onItemTapped(1),
-              ),
+              _navBarIcon(FontAwesomeIcons.house, 0),
+              _navBarIcon(FontAwesomeIcons.chartLine, 1),
               const SizedBox(width: 48),
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.commentDots, size: 20),
-                color: _selectedIndex == 3
-                    ? Colors.lightBlueAccent
-                    : Colors.grey,
-                onPressed: () => _onItemTapped(3),
-              ),
-              IconButton(
-                icon: FaIcon(FontAwesomeIcons.gear, size: 20),
-                color: _selectedIndex == 4
-                    ? Colors.lightBlueAccent
-                    : Colors.grey,
-                onPressed: () => _onItemTapped(4),
-              ),
+              _navBarIcon(FontAwesomeIcons.commentDots, 3),
+              _navBarIcon(FontAwesomeIcons.gear, 4),
             ],
           ),
         ),
@@ -501,7 +553,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-// line chart draft
+// Line Chart Painter (unchanged)
 class _LineChartPainter extends CustomPainter {
   final List<int> values;
   _LineChartPainter(this.values);
@@ -509,6 +561,8 @@ class _LineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final maxVal = 250.0;
+    final minVal = 0.0;
+
     final paint = Paint()
       ..color = Colors.blue
       ..strokeWidth = 2.5
@@ -532,42 +586,35 @@ class _LineChartPainter extends CustomPainter {
     final graphWidth = size.width;
     final stepX = graphWidth / (values.length - 1);
 
-    // horizontal grid lines
-    for (int i = 0; i <= 4; i++) {
-      final y = graphHeight * (i / 4);
+    for (int i = 0; i <= 5; i++) {
+      final y = graphHeight * (i / 5);
       canvas.drawLine(Offset(0, y), Offset(graphWidth, y), gridPaint);
     }
 
-    // build points
     final points = <Offset>[];
     for (int i = 0; i < values.length; i++) {
       final x = stepX * i;
-      final y = graphHeight - (values[i] / maxVal) * graphHeight;
+      final y =
+          graphHeight -
+          ((values[i] - minVal) / (maxVal - minVal) * graphHeight);
       points.add(Offset(x, y));
     }
 
-    // create straight line path (points Mon -> Sun, left to right)
-    Path path = Path();
     if (points.isNotEmpty) {
-      path.moveTo(points[0].dx, points[0].dy);
+      final path = Path()..moveTo(points[0].dx, points[0].dy);
       for (int i = 1; i < points.length; i++) {
         path.lineTo(points[i].dx, points[i].dy);
       }
-    }
 
-    // fill area under curve
-    if (points.isNotEmpty) {
-      final fillPath = Path.from(path);
-      fillPath.lineTo(points.last.dx, graphHeight);
-      fillPath.lineTo(points.first.dx, graphHeight);
-      fillPath.close();
+      final fillPath = Path.from(path)
+        ..lineTo(points.last.dx, graphHeight)
+        ..lineTo(points.first.dx, graphHeight)
+        ..close();
+
       canvas.drawPath(fillPath, fillPaint);
+      canvas.drawPath(path, paint);
     }
 
-    // draw line
-    canvas.drawPath(path, paint);
-
-    // draw dots
     final dotPaint = Paint()..color = Colors.blue;
     for (final p in points) {
       canvas.drawCircle(p, 3.5, dotPaint);

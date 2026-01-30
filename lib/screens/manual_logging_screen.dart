@@ -15,8 +15,9 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
 
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
-  final TextEditingController glucoseController =
-      TextEditingController(text: '100');
+  final TextEditingController glucoseController = TextEditingController(
+    text: '100',
+  );
   final TextEditingController statusController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
 
@@ -75,30 +76,30 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
 
                 // BLOOD SUGAR WITH STEPPER
                 Row(
-                children: [
+                  children: [
                     Expanded(
-                    child: TextField(
+                      child: TextField(
                         controller: glucoseController,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
-                        labelText: 'Blood Sugar (mg/dL)',
+                          labelText: 'Blood Sugar (mg/dL)',
                         ),
                         onChanged: (_) => _updateStatus(),
-                    ),
+                      ),
                     ),
                     Column(
-                    children: [
+                      children: [
                         IconButton(
-                        icon: const Icon(Icons.arrow_drop_up),
-                        onPressed: () => _changeGlucose(1),
+                          icon: const Icon(Icons.arrow_drop_up),
+                          onPressed: () => _changeGlucose(1),
                         ),
                         IconButton(
-                        icon: const Icon(Icons.arrow_drop_down),
-                        onPressed: () => _changeGlucose(-1),
+                          icon: const Icon(Icons.arrow_drop_down),
+                          onPressed: () => _changeGlucose(-1),
                         ),
-                    ],
+                      ],
                     ),
-                ],
+                  ],
                 ),
 
                 const SizedBox(height: 12),
@@ -107,9 +108,7 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
                 TextField(
                   controller: statusController,
                   readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Status',
-                  ),
+                  decoration: const InputDecoration(labelText: 'Status'),
                 ),
                 const SizedBox(height: 12),
 
@@ -117,22 +116,24 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
                 TextField(
                   controller: noteController,
                   maxLines: 2,
-                  decoration: const InputDecoration(
-                    labelText: 'Note',
-                  ),
+                  decoration: const InputDecoration(labelText: 'Note'),
                 ),
                 const SizedBox(height: 12),
 
                 // READING TYPE DROPDOWN
                 DropdownButtonFormField<String>(
-                  value: readingType,
-                  decoration: const InputDecoration(
-                    labelText: 'Reading Type',
-                  ),
+                  initialValue: readingType,
+                  decoration: const InputDecoration(labelText: 'Reading Type'),
                   items: const [
                     DropdownMenuItem(value: 'Random', child: Text('Random')),
-                    DropdownMenuItem(value: 'Before Meal', child: Text('Before Meal')),
-                    DropdownMenuItem(value: 'After Meal', child: Text('After Meal')),
+                    DropdownMenuItem(
+                      value: 'Before Meal',
+                      child: Text('Before Meal'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'After Meal',
+                      child: Text('After Meal'),
+                    ),
                   ],
                   onChanged: (value) {
                     setState(() => readingType = value!);
@@ -209,9 +210,7 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
 
   void _saveEntry() {
     final entry = GlucoseEntry(
-      dateTime: DateTime.parse(
-        '${dateController.text} ${timeController.text}',
-      ),
+      dateTime: DateTime.parse('${dateController.text} ${timeController.text}'),
       glucoseValue: double.parse(glucoseController.text),
       status: statusController.text,
       note: noteController.text,
@@ -222,8 +221,8 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
 
     repository.addEntry(entry);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Reading saved locally')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Reading saved locally')));
   }
 }
