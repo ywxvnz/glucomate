@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'manual_logging_screen.dart';
 import 'scan_glucometer_screen.dart';
 import 'log_records_screen.dart';
 import '../utils/app_text_styles.dart';
@@ -37,16 +36,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Dashboard Home
   Widget _dashboardHome() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Scrollable profile + greeting
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _sectionHeader("Indexes"),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+<<<<<<< Updated upstream
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.lightBlueAccent,
@@ -63,9 +64,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Text("Hello,", style: AppTextStyles.body()),
                     Text("Juan Lucas", style: AppTextStyles.title()),
                   ],
+=======
+                _indexBox(
+                  "Avg Glucose",
+                  "120 mg/dL",
+                  FontAwesomeIcons.heartPulse,
+>>>>>>> Stashed changes
                 ),
+                _indexBox("Status", "Normal", FontAwesomeIcons.solidHeart),
               ],
             ),
+<<<<<<< Updated upstream
           ),
           const SizedBox(height: 24),
           _sectionHeader("Indexes"),
@@ -141,6 +150,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
 
         ],
+=======
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _indexBox("Last Reading", "80 mg/dL", FontAwesomeIcons.droplet),
+                _indexBox("Trend", "Low", FontAwesomeIcons.chartLine),
+              ],
+            ),
+            const SizedBox(height: 32),
+            _sectionHeader("Blood Glucose"),
+            const SizedBox(height: 16),
+            _lineChart(),
+          ],
+        ),
+>>>>>>> Stashed changes
       ),
     );
   }
@@ -335,6 +360,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: Text(
           title,
           style: GoogleFonts.nunito(
+            fontWeight: FontWeight.bold,
             color: isSelected ? Colors.lightBlueAccent : null,
           ),
         ),
@@ -354,133 +380,135 @@ class _DashboardScreenState extends State<DashboardScreen> {
             : const Color(0xFFEDF1F6),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(80),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            color: _isDarkMode ? Colors.grey[900] : const Color(0xFFEDF1F6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Logo and App Name
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/logo.png', // full logo picture
-                      width: 48,
-                      height: 48,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      "GlucoMate",
-                      style: GoogleFonts.fredoka(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: _isDarkMode ? Colors.white : Colors.black,
+          child: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              color: _isDarkMode ? Colors.grey[900] : const Color(0xFFEDF1F6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Logo and App Name
+                  Row(
+                    children: [
+                      Image.asset('assets/logo.png', width: 48, height: 48),
+                      const SizedBox(width: 8),
+                      Text(
+                        "GlucoMate",
+                        style: GoogleFonts.fredoka(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: _isDarkMode ? Colors.white : Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Builder(
-                  builder: (context) => IconButton(
-                    icon: const Icon(Icons.menu),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    ],
                   ),
-                ),
-              ],
+                  Builder(
+                    builder: (context) => IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         endDrawer: Drawer(
-          child: Column(
-            children: [
-              Container(
-                height: 160,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blueAccent.shade700,
-                      Colors.lightBlueAccent,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  height: 100,
+                  padding: const EdgeInsets.all(16),
+                  color: const Color.fromARGB(255, 233, 172, 239),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: const Color.fromARGB(
+                          255,
+                          14,
+                          114,
+                          156,
+                        ),
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Example Name",
+                            style: GoogleFonts.fredoka(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            "example@gmail.com",
+                            style: GoogleFonts.nunito(fontSize: 14),
+                          ),
+                        ],
+                      ),
                     ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(40),
                   ),
                 ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 34,
-                      backgroundColor: Colors.white.withOpacity(0.9),
-                      child: Image.asset(
-                        'assets/logo.png',
-                        width: 40,
-                        height: 40,
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      const SizedBox(height: 12),
+                      _drawerItem(Icons.dashboard, "Dashboard", 0, () {
+                        setState(() => _selectedIndex = 0);
+                        Navigator.pop(context);
+                      }),
+                      _drawerItem(
+                        Icons.person,
+                        "Profile",
+                        1,
+                        () => Navigator.pop(context),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "GlucoMate",
-                          style: GoogleFonts.fredoka(
-                            fontSize: 20,
-                            color: Colors.white,
+                      _drawerItem(
+                        Icons.history,
+                        "History",
+                        2,
+                        () => Navigator.pop(context),
+                      ),
+                      _drawerItem(Icons.settings, "Settings", 4, () {
+                        setState(() => _selectedIndex = 4);
+                        Navigator.pop(context);
+                      }),
+                      ListTile(
+                        leading: Icon(
+                          _isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                          color: Colors.grey,
+                        ),
+                        title: Text(
+                          _isDarkMode ? "Dark Mode" : "Light Mode",
+                          style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    const SizedBox(height: 12),
-                    _drawerItem(Icons.dashboard, "Dashboard", 0, () {
-                      setState(() => _selectedIndex = 0);
-                      Navigator.pop(context);
-                    }),
-                    _drawerItem(
-                      Icons.person,
-                      "Profile",
-                      1,
-                      () => Navigator.pop(context),
-                    ),
-                    _drawerItem(
-                      Icons.history,
-                      "History",
-                      2,
-                      () => Navigator.pop(context),
-                    ),
-                    _drawerItem(Icons.settings, "Settings", 4, () {
-                      setState(() => _selectedIndex = 4);
-                      Navigator.pop(context);
-                    }),
-                    ListTile(
-                      leading: Icon(
-                        _isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                        color: Colors.grey,
+                        onTap: () => setState(() => _isDarkMode = !_isDarkMode),
                       ),
-                      title: Text(
-                        _isDarkMode ? "Dark Mode" : "Light Mode",
-                        style: GoogleFonts.nunito(),
-                      ),
-                      onTap: () => setState(() => _isDarkMode = !_isDarkMode),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.grey),
-                title: Text("Logout", style: GoogleFonts.nunito()),
-                onTap: () {},
-              ),
-            ],
+                ListTile(
+                  leading: const Icon(Icons.logout, color: Colors.grey),
+                  title: Text(
+                    "Logout",
+                    style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () {},
+                ),
+              ],
+            ),
           ),
         ),
         body: _pages[_selectedIndex],
@@ -541,7 +569,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _navBarIcon(FontAwesomeIcons.chartLine, 1),
               const SizedBox(width: 48),
               _navBarIcon(FontAwesomeIcons.commentDots, 3),
-              _navBarIcon(FontAwesomeIcons.gear, 4),
+              _navBarIcon(FontAwesomeIcons.user, 4),
             ],
           ),
         ),
@@ -550,7 +578,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-// Line Chart Painter (unchanged)
+// Line Chart Painter
 class _LineChartPainter extends CustomPainter {
   final List<int> values;
   _LineChartPainter(this.values);
