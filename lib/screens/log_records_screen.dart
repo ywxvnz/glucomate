@@ -24,7 +24,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
         'time': '9:26pm',
         'glucose': '120 mg/dl',
         'status': 'Normal',
-        'note': 'felt dizzyyyyyyyyyyyyyyyyyyyy',
+        'note': 'felt dizzy',
         'readingType': 'Random',
         'source': 'Scan'
       },
@@ -52,35 +52,16 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
   @override
   Widget build(BuildContext context) {
     final records = _records;
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Log Records'),
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.textGray,
-        elevation: 1,
-      ),
-      backgroundColor: AppColors.background,
-      body: SafeArea(
+
+    return Container(
+      color: AppColors.background,
+      child: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.buttonCyan,
-                    shape: const StadiumBorder(),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 36, vertical: 14),
-                  ),
-                  child: Text('Export Logs', style: AppTextStyles.button()),
-                ),
-              ),
-
-              const SizedBox(height: 20),
+              const SizedBox(height: 4),
 
               Container(
                 decoration: BoxDecoration(
@@ -91,7 +72,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Header row
+                    // Header row (keep this one inside the container)
                     Padding(
                       padding:
                           const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -131,10 +112,10 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                           horizontal: 12, vertical: 10),
                       child: Row(
                         children: [
-                            Expanded(flex: 2, child: Text('Date', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
-                            Expanded(flex: 2, child: Text('Time', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
-                            Expanded(flex: 3, child: Text('Blood Sugar', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
-                            Expanded(flex: 2, child: Text('Status', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                          Expanded(flex: 2, child: Text('Date', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                          Expanded(flex: 2, child: Text('Time', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                          Expanded(flex: 3, child: Text('Blood Sugar', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
+                          Expanded(flex: 2, child: Text('Status', style: AppTextStyles.subtitle(color: AppColors.textBlack.withOpacity(0.9)))),
                           const SizedBox(width: 8),
                         ],
                       ),
@@ -158,7 +139,7 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                             childrenPadding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 12),
                             collapsedBackgroundColor: Colors.transparent,
-                                title: Row(
+                            title: Row(
                               children: [
                                 Expanded(flex: 2, child: Text(r['date'] ?? '', style: AppTextStyles.body(color: AppColors.textGray))),
                                 Expanded(flex: 2, child: Text(r['time'] ?? '', style: AppTextStyles.body(color: AppColors.textGray))),
@@ -167,67 +148,51 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                               ],
                             ),
                             children: [
-                              Container(
-                                width: double.infinity,
-                                /*decoration: BoxDecoration(
-                                  color: AppColors.borderGray,
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(18),
-                                    bottomRight: Radius.circular(18),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Wrap(
+                                    runSpacing: 8,
+                                    spacing: 12,
+                                    children: [
+                                      _detailPair('Note:', r['note'] ?? ''),
+                                      _detailPair('Reading Type:', r['readingType'] ?? ''),
+                                      _detailPair('Entry Source:', r['source'] ?? ''),
+                                    ],
                                   ),
-                                ),
-                                padding: const EdgeInsets.all(12),*/
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Wrap(
-                                      runSpacing: 8,
-                                      spacing: 12,
-                                      children: [
-                                        /*_detailPair('Date:', r['date'] ?? ''),
-                                        _detailPair('Time:', r['time'] ?? ''),
-                                        _detailPair('Blood Sugar:', r['glucose'] ?? ''),
-                                        _detailPair('Status:', r['status'] ?? ''),*/
-                                        _detailPair('Note:', r['note'] ?? ''),
-                                        _detailPair('Reading Type:', r['readingType'] ?? ''),
-                                        _detailPair('Entry Source:', r['source'] ?? ''),
-                                      ],
-                                    ),
-                                    
-                                    const SizedBox(height: 12),
 
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () => _editRecord(index),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: AppColors.buttonCyan,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                            textStyle: AppTextStyles.body(),
+                                  const SizedBox(height: 12),
+
+                                  Row(
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () => _editRecord(index),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.buttonCyan,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
-                                          child: const Text('Edit'),
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          textStyle: AppTextStyles.body(),
                                         ),
-                                        const SizedBox(width: 12),
-                                        ElevatedButton(
-                                          onPressed: () => _confirmDelete(index),
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: AppColors.bloodRed,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                            textStyle: AppTextStyles.body(),
+                                        child: const Text('Edit'),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      ElevatedButton(
+                                        onPressed: () => _confirmDelete(index),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.bloodRed,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
                                           ),
-                                          child: const Text('Delete'),
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                          textStyle: AppTextStyles.body(),
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                        child: const Text('Delete'),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -235,6 +200,21 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                       },
                     ),
                   ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Moved Export Logs button below the table/container
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.buttonCyan,
+                    shape: const StadiumBorder(),
+                    padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 14),
+                  ),
+                  child: Text('Export Logs', style: AppTextStyles.button()),
                 ),
               ),
             ],

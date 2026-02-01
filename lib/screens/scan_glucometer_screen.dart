@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_text_styles.dart';
 import 'manual_logging_screen.dart';
-import 'package:flutter/material.dart';
 import 'app_shell.dart';
 
 class ScanGlucometerScreen extends StatefulWidget {
@@ -13,37 +12,27 @@ class ScanGlucometerScreen extends StatefulWidget {
 }
 
 class _ScanGlucometerScreenState extends State<ScanGlucometerScreen> {
-  // Mock extracted data (in real app this would come from OCR)
   Map<String, String> _extracted = {
     'date': '01/07/25',
     'time': '9:26pm',
     'bloodSugar': '120 mg/dl',
     'status': 'Normal',
-    'note': 'felt dizzyyyyyyyyyyyyyyyyyyyy',
+    'note': 'felt dizzy',
     'readingType': 'Random',
     'source': 'Scan',
   };
 
   void _onManualInput() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AppShell(initialIndex: 5)),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => AppShell(initialIndex: 5)));
   }
 
   Future<void> _onScanPressed() async {
-    // Simulate scanning then show the result screen/dialog
     await showDialog(
       context: context,
       builder: (_) => _ScannedResultDialog(
         extracted: Map.from(_extracted),
         onSave: (updated) {
-          setState(() {
-            _extracted = updated;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Scanned entry saved')),
-          );
+          setState(() => _extracted = updated);
         },
       ),
     );
@@ -51,18 +40,20 @@ class _ScanGlucometerScreenState extends State<ScanGlucometerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Scan Glucometer'),
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.textGray,
-        elevation: 1,
-      ),
-      body: Padding(
+    return Container(
+      color: AppColors.background,
+      child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Camera Preview: 4:3 aspect ratio (larger)
+            Center(
+              child: Text(
+                'Scan Glucometer',
+                style: AppTextStyles.headline(color: AppColors.textBlack),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 12),
             AspectRatio(
               aspectRatio: 4 / 3,
               child: Container(
@@ -72,46 +63,27 @@ class _ScanGlucometerScreenState extends State<ScanGlucometerScreen> {
                   border: Border.all(color: AppColors.borderGray),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons.camera_alt,
-                    size: 64,
-                    color: AppColors.iconBlack,
-                  ),
-                ),
+                child: Center(child: Icon(Icons.camera_alt, size: 64, color: AppColors.iconBlack)),
               ),
             ),
-
             const SizedBox(height: 24),
-
-            // Scan Button (prominent)
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: _onScanPressed,
                 icon: const Icon(Icons.document_scanner),
                 label: Text('Scan', style: AppTextStyles.button()),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  backgroundColor: AppColors.buttonCyan,
-                ),
+                style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14), backgroundColor: AppColors.buttonCyan),
               ),
             ),
-
             const SizedBox(height: 12),
-
-            // Manual Input Button (outlined, smaller)
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
                 onPressed: _onManualInput,
                 icon: const Icon(Icons.edit),
                 label: Text('Manual Input', style: AppTextStyles.button(color: AppColors.cyan)),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  foregroundColor: AppColors.cyan,
-                  side: BorderSide(color: AppColors.cyan),
-                ),
+                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14), foregroundColor: AppColors.cyan),
               ),
             ),
           ],

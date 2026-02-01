@@ -13,15 +13,11 @@ class ManualLoggingScreen extends StatefulWidget {
 
 class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
   final GlucoseRepository repository = GlucoseRepository();
-
   final TextEditingController dateController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
-  final TextEditingController glucoseController = TextEditingController(
-    text: '100',
-  );
+  final TextEditingController glucoseController = TextEditingController(text: '100');
   final TextEditingController statusController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
-
   String readingType = 'Random';
 
   @override
@@ -32,14 +28,9 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manual Logging'),
-        backgroundColor: AppColors.white,
-        foregroundColor: AppColors.textGray,
-        elevation: 1,
-      ),
-      body: Padding(
+    return Container(
+      color: AppColors.background,
+      child: Padding(
         padding: const EdgeInsets.all(16),
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -51,77 +42,28 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // DATE
-                TextField(
-                  controller: dateController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Date',
-                    suffixIcon: Icon(Icons.calendar_today),
+                Center(
+                  child: Text(
+                    'Manual Blood Glucose Entry',
+                    style: AppTextStyles.headline(color: AppColors.textBlack),
+                    textAlign: TextAlign.center,
                   ),
-                  onTap: _pickDate,
                 ),
                 const SizedBox(height: 12),
 
-                // TIME
-                TextField(
-                  controller: timeController,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Time',
-                    suffixIcon: Icon(Icons.access_time),
-                  ),
-                  onTap: _pickTime,
-                ),
+                TextField(controller: dateController, readOnly: true, decoration: const InputDecoration(labelText: 'Date', suffixIcon: Icon(Icons.calendar_today)), onTap: _pickDate),
                 const SizedBox(height: 12),
-
-                // BLOOD SUGAR WITH STEPPER
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: glucoseController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          labelText: 'Blood Sugar (mg/dL)',
-                        ),
-                        onChanged: (_) => _updateStatus(),
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.arrow_drop_up),
-                          onPressed: () => _changeGlucose(1),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.arrow_drop_down),
-                          onPressed: () => _changeGlucose(-1),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-
+                TextField(controller: timeController, readOnly: true, decoration: const InputDecoration(labelText: 'Time', suffixIcon: Icon(Icons.access_time)), onTap: _pickTime),
                 const SizedBox(height: 12),
-
-                // STATUS (AUTO)
-                TextField(
-                  controller: statusController,
-                  readOnly: true,
-                  decoration: const InputDecoration(labelText: 'Status'),
-                ),
+                Row(children: [
+                  Expanded(child: TextField(controller: glucoseController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Blood Sugar (mg/dL)'), onChanged: (_) => _updateStatus())),
+                  Column(children: [IconButton(icon: const Icon(Icons.arrow_drop_up), onPressed: () => _changeGlucose(1)), IconButton(icon: const Icon(Icons.arrow_drop_down), onPressed: () => _changeGlucose(-1))]),
+                ]),
                 const SizedBox(height: 12),
-
-                // NOTE
-                TextField(
-                  controller: noteController,
-                  maxLines: 2,
-                  decoration: const InputDecoration(labelText: 'Note'),
-                ),
+                TextField(controller: statusController, readOnly: true, decoration: const InputDecoration(labelText: 'Status')),
                 const SizedBox(height: 12),
-
-                // READING TYPE DROPDOWN
+                TextField(controller: noteController, maxLines: 2, decoration: const InputDecoration(labelText: 'Note')),
+                const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   initialValue: readingType,
                   decoration: const InputDecoration(labelText: 'Reading Type'),
@@ -130,21 +72,14 @@ class _ManualLoggingScreenState extends State<ManualLoggingScreen> {
                     DropdownMenuItem(value: 'Before Meal', child: Text('Before Meal', style: AppTextStyles.body())),
                     DropdownMenuItem(value: 'After Meal', child: Text('After Meal', style: AppTextStyles.body())),
                   ],
-                  onChanged: (value) {
-                    setState(() => readingType = value!);
-                  },
+                  onChanged: (value) => setState(() => readingType = value!),
                 ),
                 const SizedBox(height: 24),
-
-                // SAVE
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _saveEntry,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.buttonCyan,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
+                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.buttonCyan, padding: const EdgeInsets.symmetric(vertical: 16)),
                     child: Text('Save', style: AppTextStyles.button()),
                   ),
                 ),
