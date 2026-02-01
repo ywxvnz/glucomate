@@ -199,30 +199,30 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        // Edit
-                                        Material(
-                                          color: AppColors.buttonCyan,
-                                          shape: const CircleBorder(),
-                                          child: IconButton(
-                                            onPressed: () => _editRecord(index),
-                                            icon: Icon(
-                                              Icons.edit,
-                                              color: AppColors.iconBlack,
+                                        ElevatedButton(
+                                          onPressed: () => _editRecord(index),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.buttonCyan,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8),
                                             ),
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            textStyle: AppTextStyles.body(),
                                           ),
+                                          child: const Text('Edit'),
                                         ),
                                         const SizedBox(width: 12),
-                                        // Delete
-                                        Material(
-                                          color: AppColors.bloodRed,
-                                          shape: const CircleBorder(),
-                                          child: IconButton(
-                                            onPressed: () => _confirmDelete(index),
-                                            icon: Icon(
-                                              Icons.delete,
-                                              color: AppColors.iconBlack,
+                                        ElevatedButton(
+                                          onPressed: () => _confirmDelete(index),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.bloodRed,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(8),
                                             ),
+                                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                            textStyle: AppTextStyles.body(),
                                           ),
+                                          child: const Text('Delete'),
                                         ),
                                       ],
                                     ),
@@ -282,10 +282,11 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: readingType,
-              items: const [
-                DropdownMenuItem(value: 'Random', child: Text('Random')),
-                DropdownMenuItem(value: 'Before Meal', child: Text('Before Meal')),
-                DropdownMenuItem(value: 'After Meal', child: Text('After Meal')),
+              style: AppTextStyles.body(),
+              items: [
+                DropdownMenuItem(value: 'Random', child: Text('Random', style: AppTextStyles.body())),
+                DropdownMenuItem(value: 'Before Meal', child: Text('Before Meal', style: AppTextStyles.body())),
+                DropdownMenuItem(value: 'After Meal', child: Text('After Meal', style: AppTextStyles.body())),
               ],
               onChanged: (v) => readingType = v ?? readingType,
               decoration: const InputDecoration(labelText: 'Reading Type'),
@@ -348,4 +349,3 @@ class _LogRecordsScreenState extends State<LogRecordsScreen> {
     }
   }
 }
- 
