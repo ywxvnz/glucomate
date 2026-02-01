@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'utils/app_colors.dart';
 import 'utils/app_text_styles.dart';
 import 'screens/dashboard_screen.dart';
+import 'screens/app_shell.dart';
 
 void main() {
   runApp(const GlucoMateApp());
@@ -15,7 +16,7 @@ class GlucoMateApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: _appTheme(),
-      home: DashboardScreen(), 
+      home: const AppShell(), 
     );
   }
 }

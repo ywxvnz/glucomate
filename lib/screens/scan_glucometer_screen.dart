@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_text_styles.dart';
 import 'manual_logging_screen.dart';
+import 'package:flutter/material.dart';
+import 'app_shell.dart';
 
 class ScanGlucometerScreen extends StatefulWidget {
   const ScanGlucometerScreen({super.key});
@@ -25,7 +27,7 @@ class _ScanGlucometerScreenState extends State<ScanGlucometerScreen> {
   void _onManualInput() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => ManualLoggingScreen()),
+      MaterialPageRoute(builder: (_) => AppShell(initialIndex: 5)),
     );
   }
 
