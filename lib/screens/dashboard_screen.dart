@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:glucomate/screens/manual_logging_screen.dart';
 import 'scan_glucometer_screen.dart';
 import 'log_records_screen.dart';
 import '../utils/app_text_styles.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -28,10 +28,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   late final List<Widget> _pages = [
     _dashboardHome(),
-    const Center(child: Text('Chart Page')),
+    const Center(
+      child: Text('Log Records Page', style: TextStyle(color: Colors.black)),
+    ),
     const SizedBox.shrink(),
-    const Center(child: Text('Chatbot Page')),
-    const Center(child: Text('Settings Page')),
+    const Center(
+      child: Text('Chatbot Page', style: TextStyle(color: Colors.black)),
+    ),
+    const Center(
+      child: Text('Profile Page', style: TextStyle(color: Colors.black)),
+    ),
   ];
 
   // Dashboard Home
@@ -42,115 +48,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 24),
             _sectionHeader("Indexes"),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-<<<<<<< Updated upstream
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.lightBlueAccent,
-                  child: const Icon(
-                    Icons.person,
-                    size: 24,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Hello,", style: AppTextStyles.body()),
-                    Text("Juan Lucas", style: AppTextStyles.title()),
-                  ],
-=======
                 _indexBox(
                   "Avg Glucose",
                   "120 mg/dL",
                   FontAwesomeIcons.heartPulse,
->>>>>>> Stashed changes
                 ),
                 _indexBox("Status", "Normal", FontAwesomeIcons.solidHeart),
               ],
             ),
-<<<<<<< Updated upstream
-          ),
-          const SizedBox(height: 24),
-          _sectionHeader("Indexes"),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _indexBox(
-                "Avg Glucose",
-                "120 mg/dL",
-                FontAwesomeIcons.heartPulse,
-              ),
-              _indexBox("Status", "Normal", FontAwesomeIcons.solidHeart),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _indexBox("Last Reading", "80 mg/dL", FontAwesomeIcons.droplet),
-              _indexBox("Trend", "Low", FontAwesomeIcons.chartLine),
-            ],
-          ),
-          const SizedBox(height: 32),
-          _sectionHeader("Blood Glucose"),
-          const SizedBox(height: 16),
-          _lineChart(),
-          const SizedBox(height: 24),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ManualLoggingScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 6,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 14,
-                ),
-              ),
-              child: Text("Manual Logging", style: AppTextStyles.button()),
-            ),
-          ),
-          
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => LogRecordsScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                elevation: 6,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 14,
-                ),
-              ),
-              child: Text("Log Records", style: AppTextStyles.button()),
-            ),
-          ),
-
-        ],
-=======
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,7 +76,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             _lineChart(),
           ],
         ),
->>>>>>> Stashed changes
       ),
     );
   }
@@ -175,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: AppTextStyles.headline()),
+        Text(title, style: AppTextStyles.headline(color: Colors.black)),
         GestureDetector(
           onTap: () async {
             final picked = await showDatePicker(
@@ -190,20 +100,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey.shade400),
-              color: Colors.transparent,
+              border: Border.all(color: Colors.grey.shade300),
+              color: Colors.white,
             ),
             child: Row(
               children: [
                 Text(
                   dateLabel,
-                  style: GoogleFonts.nunito(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTextStyles.subtitle(color: Colors.black),
                 ),
                 const SizedBox(width: 2),
-                const Icon(Icons.expand_more, size: 16),
+                const Icon(Icons.expand_more, size: 16, color: Colors.black),
               ],
             ),
           ),
@@ -220,7 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.transparent,
+        color: Colors.white,
         border: Border.all(color: Colors.grey.shade300),
         boxShadow: [
           BoxShadow(
@@ -237,9 +144,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(title, style: AppTextStyles.subtitle(color: Colors.black54)),
+              Text(title, style: AppTextStyles.subtitle(color: Colors.grey)),
               const SizedBox(height: 6),
-              Text(value, style: AppTextStyles.title()),
+              Text(value, style: AppTextStyles.title(color: Colors.black)),
             ],
           ),
           FaIcon(icon, color: Colors.black, size: 20),
@@ -265,10 +172,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 .map(
                   (y) => Text(
                     y.toString(),
-                    style: GoogleFonts.nunito(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: AppTextStyles.caption(color: Colors.black),
                   ),
                 )
                 .toList(),
@@ -293,10 +197,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           .map(
                             (d) => Text(
                               d,
-                              style: GoogleFonts.nunito(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: AppTextStyles.caption(color: Colors.black),
                             ),
                           )
                           .toList(),
@@ -322,21 +223,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () => _onItemTapped(index),
-      splashColor: Colors.lightBlueAccent.withOpacity(0.3),
+      splashColor: Color(0xFF185b5a).withOpacity(0.3),
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: isSelected
-              ? Colors.lightBlueAccent.withOpacity(0.15)
+              ? Color(0xFF185b5a).withOpacity(0.15)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: FaIcon(
           icon,
           size: 20,
-          color: isSelected ? Colors.lightBlueAccent : Colors.grey,
+          color: isSelected ? Color(0xFF185b5a) : Colors.black,
         ),
       ),
     );
@@ -355,16 +256,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: ListTile(
         leading: FaIcon(
           icon,
-          color: isSelected ? Colors.lightBlueAccent : Colors.grey,
+          color: isSelected ? Color(0xFF185b5a) : Colors.black,
         ),
         title: Text(
           title,
-          style: GoogleFonts.nunito(
-            fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.lightBlueAccent : null,
+          style: AppTextStyles.subtitle(
+            color: isSelected ? Color(0xFF185b5a) : Colors.black,
           ),
         ),
-        hoverColor: Colors.lightBlueAccent.withOpacity(0.1),
+        hoverColor: Color(0xFF185b5a).withOpacity(0.1),
         onTap: onTap,
       ),
     );
@@ -373,17 +273,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      theme: ThemeData.light(),
       home: Scaffold(
-        backgroundColor: _isDarkMode
-            ? Colors.grey[900]
-            : const Color(0xFFEDF1F6),
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(80),
           child: SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              color: _isDarkMode ? Colors.grey[900] : const Color(0xFFEDF1F6),
+              color: Colors.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -394,17 +292,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const SizedBox(width: 8),
                       Text(
                         "GlucoMate",
-                        style: GoogleFonts.fredoka(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: _isDarkMode ? Colors.white : Colors.black,
-                        ),
+                        style: AppTextStyles.appName(color: Colors.black),
                       ),
                     ],
                   ),
                   Builder(
                     builder: (context) => IconButton(
-                      icon: const Icon(Icons.menu),
+                      icon: const Icon(Icons.menu, color: Colors.black),
                       onPressed: () => Scaffold.of(context).openEndDrawer(),
                     ),
                   ),
@@ -420,20 +314,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Container(
                   height: 100,
                   padding: const EdgeInsets.all(16),
-                  color: const Color.fromARGB(255, 233, 172, 239),
+                  color: Colors.white,
                   child: Row(
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundColor: const Color.fromARGB(
-                          255,
-                          14,
-                          114,
-                          156,
-                        ),
+                        backgroundColor: Colors.grey.shade300,
                         child: const Icon(
                           Icons.person,
-                          color: Colors.white,
+                          color: Colors.black,
                           size: 30,
                         ),
                       ),
@@ -444,14 +333,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: [
                           Text(
                             "Example Name",
-                            style: GoogleFonts.fredoka(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: AppTextStyles.title(color: Colors.black),
                           ),
                           Text(
                             "example@gmail.com",
-                            style: GoogleFonts.nunito(fontSize: 14),
+                            style: AppTextStyles.subtitle(color: Colors.grey),
                           ),
                         ],
                       ),
@@ -463,47 +349,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     padding: EdgeInsets.zero,
                     children: [
                       const SizedBox(height: 12),
-                      _drawerItem(Icons.dashboard, "Dashboard", 0, () {
+                      _drawerItem(Icons.person, "Profile", 0, () {
                         setState(() => _selectedIndex = 0);
                         Navigator.pop(context);
                       }),
                       _drawerItem(
-                        Icons.person,
-                        "Profile",
+                        Icons.notifications,
+                        "Notifications",
                         1,
                         () => Navigator.pop(context),
                       ),
                       _drawerItem(
-                        Icons.history,
-                        "History",
+                        Icons.settings,
+                        "Settings",
                         2,
                         () => Navigator.pop(context),
                       ),
-                      _drawerItem(Icons.settings, "Settings", 4, () {
-                        setState(() => _selectedIndex = 4);
-                        Navigator.pop(context);
-                      }),
+
                       ListTile(
-                        leading: Icon(
-                          _isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                          color: Colors.grey,
+                        leading: const Icon(
+                          Icons.light_mode,
+                          color: Colors.black,
                         ),
                         title: Text(
-                          _isDarkMode ? "Dark Mode" : "Light Mode",
-                          style: GoogleFonts.nunito(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          "Light Mode",
+                          style: AppTextStyles.subtitle(color: Colors.black),
                         ),
-                        onTap: () => setState(() => _isDarkMode = !_isDarkMode),
+                        onTap: () {},
                       ),
                     ],
                   ),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.grey),
+                  leading: const Icon(Icons.logout, color: Colors.black),
                   title: Text(
                     "Logout",
-                    style: GoogleFonts.nunito(fontWeight: FontWeight.bold),
+                    style: AppTextStyles.subtitle(color: Colors.black),
                   ),
                   onTap: () {},
                 ),
@@ -528,11 +409,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: 64,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent,
+                  color: const Color(0xFF185b5a),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.lightBlue.withOpacity(0.18),
+                      color: const Color(0xFF185b5a).withOpacity(0.18),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
@@ -566,7 +447,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _navBarIcon(FontAwesomeIcons.house, 0),
-              _navBarIcon(FontAwesomeIcons.chartLine, 1),
+              _navBarIcon(FontAwesomeIcons.fileLines, 1),
               const SizedBox(width: 48),
               _navBarIcon(FontAwesomeIcons.commentDots, 3),
               _navBarIcon(FontAwesomeIcons.user, 4),
@@ -589,14 +470,14 @@ class _LineChartPainter extends CustomPainter {
     final minVal = 0.0;
 
     final paint = Paint()
-      ..color = Colors.blue
+      ..color = const Color(0xFF185b5a)
       ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
     final fillPaint = Paint()
       ..shader = LinearGradient(
-        colors: [Colors.blue.withOpacity(0.15), Colors.transparent],
+        colors: [const Color(0xFF185b5a).withOpacity(0.15), Colors.transparent],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
@@ -640,7 +521,7 @@ class _LineChartPainter extends CustomPainter {
       canvas.drawPath(path, paint);
     }
 
-    final dotPaint = Paint()..color = Colors.blue;
+    final dotPaint = Paint()..color = const Color(0xFF185b5a);
     for (final p in points) {
       canvas.drawCircle(p, 3.5, dotPaint);
     }
