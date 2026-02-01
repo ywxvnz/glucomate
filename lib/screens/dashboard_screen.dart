@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/app_colors.dart';
 import 'package:glucomate/screens/manual_logging_screen.dart';
 import 'scan_glucometer_screen.dart';
 import 'log_records_screen.dart';
@@ -29,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late final List<Widget> _pages = [
     _dashboardHome(),
     const Center(
-      child: Text('Log Records Page', style: TextStyle(color: Colors.black)),
+      child: Text('Log Records Page'),
     ),
     const SizedBox.shrink(),
     const Center(
@@ -85,7 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: AppTextStyles.headline(color: Colors.black)),
+        Text(title, style: AppTextStyles.headline(color: AppColors.textBlack)),
         GestureDetector(
           onTap: () async {
             final picked = await showDatePicker(
@@ -100,15 +101,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey.shade300),
-              color: Colors.white,
+              border: Border.all(color: AppColors.borderGray),
+              color: AppColors.containerBackground,
             ),
             child: Row(
               children: [
-                Text(
-                  dateLabel,
-                  style: AppTextStyles.subtitle(color: Colors.black),
-                ),
+                Text(dateLabel, style: AppTextStyles.subtitle(color: AppColors.textBlack)),
                 const SizedBox(width: 2),
                 const Icon(Icons.expand_more, size: 16, color: Colors.black),
               ],
@@ -127,8 +125,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        border: Border.all(color: Colors.grey.shade300),
+        color: AppColors.containerBackground,
+        border: Border.all(color: AppColors.borderGray),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.02),
@@ -144,12 +142,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(title, style: AppTextStyles.subtitle(color: Colors.grey)),
+              Text(title, style: AppTextStyles.subtitle(color: AppColors.textGray)),
               const SizedBox(height: 6),
-              Text(value, style: AppTextStyles.title(color: Colors.black)),
+              Text(value, style: AppTextStyles.title(color: AppColors.textBlack)),
             ],
           ),
-          FaIcon(icon, color: Colors.black, size: 20),
+          FaIcon(icon, color: AppColors.iconBlack, size: 20),
         ],
       ),
     );
@@ -169,12 +167,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: yLabels
-                .map(
-                  (y) => Text(
-                    y.toString(),
-                    style: AppTextStyles.caption(color: Colors.black),
-                  ),
-                )
+                  .map((y) => Text(y.toString(), style: AppTextStyles.caption(color: AppColors.textBlack))).toList()
                 .toList(),
           ),
           const SizedBox(width: 8),
@@ -195,10 +188,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: days
                           .map(
-                            (d) => Text(
-                              d,
-                              style: AppTextStyles.caption(color: Colors.black),
-                            ),
+                            (d) => Text(d, style: AppTextStyles.caption(color: AppColors.textBlack)),
                           )
                           .toList(),
                     ),
@@ -223,21 +213,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () => _onItemTapped(index),
-      splashColor: Color(0xFF185b5a).withOpacity(0.3),
+      splashColor: AppColors.cyan.withOpacity(0.3),
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: isSelected
-              ? Color(0xFF185b5a).withOpacity(0.15)
-              : Colors.transparent,
+          color: isSelected ? AppColors.cyan.withOpacity(0.15) : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: FaIcon(
           icon,
           size: 20,
-          color: isSelected ? Color(0xFF185b5a) : Colors.black,
+          color: isSelected ? AppColors.cyan : AppColors.iconBlack,
         ),
       ),
     );
@@ -254,17 +242,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: ListTile(
-        leading: FaIcon(
-          icon,
-          color: isSelected ? Color(0xFF185b5a) : Colors.black,
-        ),
+        leading: FaIcon(icon, color: isSelected ? AppColors.cyan : AppColors.iconBlack),
         title: Text(
           title,
-          style: AppTextStyles.subtitle(
-            color: isSelected ? Color(0xFF185b5a) : Colors.black,
-          ),
+          style: AppTextStyles.subtitle(color: isSelected ? AppColors.cyan : AppColors.textBlack),
         ),
-        hoverColor: Color(0xFF185b5a).withOpacity(0.1),
+        hoverColor: AppColors.cyan.withOpacity(0.1),
         onTap: onTap,
       ),
     );
@@ -275,13 +258,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return MaterialApp(
       theme: ThemeData.light(),
       home: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(80),
           child: SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              color: Colors.white,
+              color: AppColors.background,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -290,18 +273,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       Image.asset('assets/logo.png', width: 48, height: 48),
                       const SizedBox(width: 8),
-                      Text(
-                        "GlucoMate",
-                        style: AppTextStyles.appName(color: Colors.black),
-                      ),
+                      Text("GlucoMate", style: AppTextStyles.appName(color: AppColors.textBlack)),
                     ],
                   ),
-                  Builder(
-                    builder: (context) => IconButton(
-                      icon: const Icon(Icons.menu, color: Colors.black),
-                      onPressed: () => Scaffold.of(context).openEndDrawer(),
-                    ),
-                  ),
+                  Builder(builder: (context) => IconButton(icon: const Icon(Icons.menu, color: Colors.black), onPressed: () => Scaffold.of(context).openEndDrawer())),
                 ],
               ),
             ),
@@ -314,31 +289,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Container(
                   height: 100,
                   padding: const EdgeInsets.all(16),
-                  color: Colors.white,
+                  color: AppColors.containerBackground,
                   child: Row(
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundColor: Colors.grey.shade300,
-                        child: const Icon(
-                          Icons.person,
-                          color: Colors.black,
-                          size: 30,
-                        ),
+                        backgroundColor: AppColors.borderGray,
+                        child: const Icon(Icons.person, color: Colors.black, size: 30),
                       ),
                       const SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Example Name",
-                            style: AppTextStyles.title(color: Colors.black),
-                          ),
-                          Text(
-                            "example@gmail.com",
-                            style: AppTextStyles.subtitle(color: Colors.grey),
-                          ),
+                          Text("Example Name", style: AppTextStyles.title(color: AppColors.textBlack)),
+                          Text("example@gmail.com", style: AppTextStyles.subtitle(color: AppColors.textGray)),
                         ],
                       ),
                     ],
@@ -367,25 +332,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
 
                       ListTile(
-                        leading: const Icon(
-                          Icons.light_mode,
-                          color: Colors.black,
-                        ),
-                        title: Text(
-                          "Light Mode",
-                          style: AppTextStyles.subtitle(color: Colors.black),
-                        ),
+                        leading: const Icon(Icons.light_mode, color: AppColors.iconBlack),
+                        title: Text("Light Mode", style: AppTextStyles.subtitle(color: AppColors.textBlack)),
                         onTap: () {},
                       ),
                     ],
                   ),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.black),
-                  title: Text(
-                    "Logout",
-                    style: AppTextStyles.subtitle(color: Colors.black),
-                  ),
+                  leading: const Icon(Icons.logout, color: AppColors.iconBlack),
+                  title: Text("Logout", style: AppTextStyles.subtitle(color: AppColors.textBlack)),
                   onTap: () {},
                 ),
               ],
@@ -409,18 +365,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: 64,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF185b5a),
+                  color: AppColors.cyan,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF185b5a).withOpacity(0.18),
+                      color: AppColors.cyan.withOpacity(0.18),
                       blurRadius: 12,
                       offset: const Offset(0, 6),
                     ),
                   ],
                 ),
                 child: const Center(
-                  child: Icon(Icons.qr_code_scanner, color: Colors.white),
+                  child: Icon(Icons.qr_code_scanner, color: AppColors.textWhite),
                 ),
               ),
             ),
@@ -430,7 +386,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         bottomNavigationBar: Container(
           height: 64,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.containerBackground,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
